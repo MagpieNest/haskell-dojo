@@ -18,7 +18,7 @@ convertRowIndex :: Char -> Int
 convertRowIndex = subtract 65 . fromEnum . toUpper
 
 -- Q#04
-
+_INVALID_MOVE_ :: (Int, Int)
 _INVALID_MOVE_ = (-1, -1)
 
 -- Q#05
@@ -29,7 +29,7 @@ _SEP_ = ['_', '|', '_' ]
 
 data Square =  X 
              | O 
-             | Empty
+             | E
              deriving (Eq, Show) 
 
 -- Q#07
@@ -70,10 +70,10 @@ showGameState g = case g of
 switchPlayer :: Player -> Player
 switchPlayer X = O
 switchPlayer O = X
-switchPlayer Empty = Empty
+switchPlayer E = E
 
 -- Q#12
 showSquare :: Square -> String
 showSquare X = "X"
 showSquare O = "O"
-showSquare Empty = "_"
+showSquare E = "_"
