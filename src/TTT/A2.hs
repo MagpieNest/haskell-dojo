@@ -49,7 +49,7 @@ indexRowStrings = zip ['A'..'Z']
 
 -- Q#07
 formatLine :: [String] -> String
-formatLine i = concat [_SEP_, intercalate _SEP_ i, _SEP_ ]
+formatLine i = concat [_SEP_, intercalate _SEP_ i, _SEP_]
 
 -- Q#08
 isMoveInBounds :: Move -> Bool
