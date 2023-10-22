@@ -3,6 +3,9 @@ module TTT.A3 where
 import Data.List (transpose)
 import TTT.A1
 import TTT.A2
+import GHC.Conc (runHandlers)
+import GHC.Num (bitInteger)
+import System.Random (Random(random))
 
 -- Q#01
 
@@ -49,14 +52,30 @@ getAllLines b = b ++ transpose b ++ [getDiag1 b, getDiag2 b]
 
 -- Q#07
 putSquare :: Player -> Board -> Move -> Board
-putSquare = undefined
+putSquare _ [] _ = []
+putSquare p b (x, y) = lhs ++ [replaceSquareInRow p y curr] ++ rhs
+                       where (lhs, curr : rhs) = splitAt x b
+  
 
 -- Q#08
+prependRowIndices :: [String] -> [String]
+prependRowIndices rs = prependIndices [] (indexRowStrings rs)
+         where prependIndices acc ((i , s) : rest) = prependIndices (acc ++ [i:s]) rest 
+               prependIndices acc [] = acc
 
-prependRowIndices = undefined
+-- Q#09
+isWinningLine :: Player -> Row -> Bool
+isWinningLine _ [] = False
+isWinningLine p r = isWinningLine_ True r
+                    where isWinningLine_ acc [] = acc
+                          isWinningLine_ False _ = False 
+                          isWinningLine_ acc (h : rs) = isWinningLine_ (acc && (h == p)) rs     
 
-isWinningLine_ = undefined
 
 -- Q#10
-
-isValidMove = undefined
+isValidMove :: Board -> Move -> Bool
+isValidMove [] _ = False
+isValidMove b (x, y) 
+      | x > 2 || y > 2 = False 
+      | otherwise = isColEmpty row y
+                    where (_, row : _) = splitAt x b
